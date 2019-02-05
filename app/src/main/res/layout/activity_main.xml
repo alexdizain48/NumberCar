@@ -5,16 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
     android:background="@drawable/gradient"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context="com.alex.numbercar.MainActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="379dp"
         android:layout_height="137dp"
-        android:layout_marginTop="76dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="86dp"
         android:src="@drawable/auto"/>
 
     <LinearLayout
@@ -25,31 +27,36 @@
         android:layout_marginBottom="36dp"
         android:orientation="horizontal">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="26dp"
-        android:paddingEnd="12dp"
-        android:textSize="48sp"
-        android:hint="c000cc"
-        android:background="@drawable/numberbg"/>
+        <EditText
+            android:id="@+id/edit_text_numb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/numberbg"
+            android:hint="c000cc"
+            android:maxLength="6"
+            android:maxLines="1"
+            android:paddingEnd="12dp"
+            android:paddingStart="26dp"
+            android:textSize="48sp"/>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="@drawable/kodregionbg"
             android:gravity="center"
-            android:paddingEnd="14dp"
-            android:weightSum="2"
-            android:background="@drawable/kodregionbg">
+            android:orientation="vertical"
+            android:weightSum="2">
 
             <EditText
+                android:id="@+id/edit_text_region"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="-5dp"
                 android:layout_weight="1"
+                android:maxLength="3"
+                android:maxLines="1"
                 android:background="@android:color/transparent"
                 android:hint="123"
                 android:textAlignment="center"
@@ -84,16 +91,37 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/keyboard"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="85dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/roundrect"
+        android:paddingEnd="60dp"
+        android:paddingStart="60dp"
         android:text="Отправить"
         android:textColor="@color/colorWhite"/>
 
+
+    <com.alex.numbercar.helper.MyKeyboard
+        android:id="@+id/keyboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:focusable="true"
+
+        android:focusableInTouchMode="true"
+        />
+
+   <!-- <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboard"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone" />-->
 
 </RelativeLayout>
