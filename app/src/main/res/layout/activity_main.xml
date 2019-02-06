@@ -1,127 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/gradient"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    tools:context="com.alex.numbercar.MainActivity">
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:fillViewport="true"
+            android:scrollbars="vertical"
+            tools:context="com.alex.numbercar.MainActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="379dp"
-        android:layout_height="137dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="86dp"
-        android:src="@drawable/auto"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="36dp"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/edit_text_numb"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/numberbg"
-            android:hint="c000cc"
-            android:maxLength="6"
-            android:maxLines="1"
-            android:paddingEnd="12dp"
-            android:paddingStart="26dp"
-            android:textSize="48sp"/>
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="86dp"
+            android:layout_marginTop="86dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/auto"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/kodregionbg"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:weightSum="2">
-
-            <EditText
-                android:id="@+id/edit_text_region"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="-5dp"
-                android:layout_weight="1"
-                android:maxLength="3"
-                android:maxLines="1"
-                android:background="@android:color/transparent"
-                android:hint="123"
-                android:textAlignment="center"
-                android:textSize="30sp"/>
+            android:id="@+id/number_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="-3dp"
-                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
                 android:orientation="horizontal">
 
-                <TextView
+                <EditText
+                    android:id="@+id/edit_text_numb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:text="RUS"
-                    android:textSize="12sp"/>
+                    android:background="@drawable/numberbg"
+                    android:hint="c000cc"
+                    android:maxLength="6"
+                    android:maxLines="1"
+                    android:paddingEnd="12dp"
+                    android:paddingStart="26dp"
+                    android:textSize="48sp"/>
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="15dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="-2dp"
-                    android:src="@drawable/flagrussia"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/kodregionbg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:weightSum="2">
+
+                    <EditText
+                        android:id="@+id/edit_text_region"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="-5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:hint="123"
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:textAlignment="center"
+                        android:textSize="30sp"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="-3dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:text="RUS"
+                            android:textSize="12sp"/>
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="15dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginTop="-2dp"
+                            android:src="@drawable/flagrussia"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/roundrect"
+                android:paddingEnd="60dp"
+                android:paddingStart="60dp"
+                android:layout_marginBottom="30dp"
+                android:text="Отправить"
+                android:textColor="@color/colorWhite"/>
+
         </LinearLayout>
 
-    </LinearLayout>
+        <com.alex.numbercar.helper.MyKeyboard
+            android:id="@+id/keyboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignBottom="@+id/number_form"
+            android:layout_alignParentBottom="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/keyboard"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/roundrect"
-        android:paddingEnd="60dp"
-        android:paddingStart="60dp"
-        android:text="Отправить"
-        android:textColor="@color/colorWhite"/>
+    </RelativeLayout>
 
-
-    <com.alex.numbercar.helper.MyKeyboard
-        android:id="@+id/keyboard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:focusable="true"
-
-        android:focusableInTouchMode="true"
-        />
-
-   <!-- <android.inputmethodservice.KeyboardView
-        android:id="@+id/keyboard"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:visibility="gone" />-->
-
-</RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -1,6 +1,7 @@
 package com.alex.numbercar;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextNumb, editTextReg;
     private InputConnection ic, ic1;
     private MyKeyboard keyboard;
+    private Activity mHostActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,29 +47,25 @@ public class MainActivity extends AppCompatActivity {
         );
 
         keyboard = (MyKeyboard) findViewById(R.id.keyboard);
-        //keyboard.setVisibility(View.GONE);
+        keyboard.setVisibility(View.GONE);
 
-
-
-
-       /* editTextNumb.setRawInputType(InputType.TYPE_CLASS_TEXT);
-        editTextNumb.setTextIsSelectable(true);//выделить для копирования
-
-        ic = editTextNumb.onCreateInputConnection(new EditorInfo());
-        keyboard.setInputConnection(ic);*/
 
         editTextNumb.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     editTextNumb.setRawInputType(InputType.TYPE_CLASS_TEXT);
-                    editTextNumb.setTextIsSelectable(true);//выделить для копирования
-
+                    editTextNumb.setTextIsSelectable(true);
                     ic = editTextNumb.onCreateInputConnection(new EditorInfo());
                     keyboard.setInputConnection(ic);
-                } else {
-                    Toast.makeText(MainActivity.this, "No", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        editTextNumb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCustomKeyboard();
             }
         });
 
@@ -76,24 +74,19 @@ public class MainActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     editTextReg.setRawInputType(InputType.TYPE_CLASS_TEXT);
-                    editTextReg.setTextIsSelectable(true);//выделить для копирования
-
+                    editTextReg.setTextIsSelectable(true);
                     ic = editTextReg.onCreateInputConnection(new EditorInfo());
                     keyboard.setInputConnection(ic);
-                } else {
-                    Toast.makeText(MainActivity.this, "No", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-
-
-        /*editTextReg.setRawInputType(InputType.TYPE_CLASS_TEXT);
-        editTextReg.setTextIsSelectable(true);//выделить для копирования
-
-        ic1 = editTextReg.onCreateInputConnection(new EditorInfo());
-        keyboard.setInputConnection(ic1);*/
-
+        editTextReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCustomKeyboard();
+            }
+        });
 
         editTextNumb.addTextChangedListener(new TextWatcher() {
             @Override
@@ -113,8 +106,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-
     }
+    public void showCustomKeyboard() {
+        keyboard.setVisibility(View.VISIBLE);
+        keyboard.setEnabled(true);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+    }
+
 }

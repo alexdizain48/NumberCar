@@ -30,4 +30,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     compile 'com.android.support:recyclerview-v7:27.1.1'
+    compile 'com.android.support:percent:27.1.1'
 }
