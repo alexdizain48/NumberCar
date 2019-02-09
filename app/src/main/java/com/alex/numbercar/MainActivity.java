@@ -20,11 +20,13 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alex.numbercar.helper.MyKeyboard;
 import com.alex.numbercar.helper.CustomKeyboard;
+import com.alex.numbercar.helper.ReplaceString;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private Activity mHostActivity;
     private Context context;
     private String textNumber, textReg;
+    private Button sendBtn;
+    private String replacedNumber;
 
     private static final String TAG = "myLogs";
 
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        sendBtn = (Button)findViewById(R.id.button);
         editTextNumb = (EditText) findViewById(R.id.edit_text_numb);
         editTextReg = (EditText) findViewById(R.id.edit_text_region);
 
@@ -98,11 +103,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        /*textNumber = editTextNumb.getText().toString();
-        textReg = editTextReg.getText().toString();*/
-
-
         editTextNumb.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -111,26 +111,31 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                /*textNumber = editTextNumb.getText().toString();
-                Toast.makeText(MainActivity.this, "1 " + textNumber, Toast.LENGTH_SHORT).show();*/
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 textNumber = editTextNumb.getText().toString();
-                Toast.makeText(MainActivity.this, "1 " + textNumber, Toast.LENGTH_SHORT).show();
-
             }
         });
 
-        String completedString = textNumber + textReg;
+        sendString();
 
-       /* if (completedString.length()>0) {
-            Toast.makeText(this, "12 " + completedString, Toast.LENGTH_SHORT).show();
-        } else Toast.makeText(this, "555", Toast.LENGTH_SHORT).show();*/
+    }
 
+    private void sendString() {
+       // String completedString = replacedNumber + textReg;
 
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReplaceString rs = new ReplaceString();
+                replacedNumber = rs.replaceChar(textNumber);
+                String completedString = replacedNumber + textReg;
+                Toast.makeText(MainActivity.this, "1 " + completedString, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void showCustomKeyboard() {
