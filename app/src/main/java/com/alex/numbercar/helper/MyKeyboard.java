@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputConnection;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.alex.numbercar.R;
@@ -18,8 +19,10 @@ public class MyKeyboard extends LinearLayout implements View.OnClickListener {
 
     private Button button1, button2, button3, button4,
             button5, button6, button7, button8,
-            button9, button0, buttonDelete, buttonA, buttonB, buttonE, buttonK, buttonM,
+            button9, button0, buttonA, buttonB, buttonE, buttonK, buttonM,
             buttonH, buttonO, buttonP, buttonC, buttonT, buttonY, buttonX;
+
+    private ImageButton btnClear;
 
     private SparseArray<String> keyValues = new SparseArray<>();
     private InputConnection inputConnection;
@@ -85,9 +88,8 @@ public class MyKeyboard extends LinearLayout implements View.OnClickListener {
         buttonX = (Button) findViewById(R.id.button_X);
         buttonX.setOnClickListener(this);
 
-
-        buttonDelete = (Button) findViewById(R.id.button_delete);
-        buttonDelete.setOnClickListener(this);
+        btnClear = (ImageButton)findViewById(R.id.button_delete);
+        btnClear.setOnClickListener(this);
 
         keyValues.put(R.id.button_1, "1");
         keyValues.put(R.id.button_2, "2");

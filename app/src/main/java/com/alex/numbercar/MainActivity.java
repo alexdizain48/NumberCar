@@ -1,43 +1,29 @@
 package com.alex.numbercar;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.KeyboardView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alex.numbercar.helper.MyKeyboard;
-import com.alex.numbercar.helper.CustomKeyboard;
 import com.alex.numbercar.helper.ReplaceString;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTextNumb, editTextReg;
-    private InputConnection ic, ic1;
+    private InputConnection ic;
     private MyKeyboard keyboard;
-    private Activity mHostActivity;
     private Context context;
     private String textNumber, textReg;
     private Button sendBtn;
@@ -56,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
         sendBtn = (Button)findViewById(R.id.button);
         editTextNumb = (EditText) findViewById(R.id.edit_text_numb);
         editTextReg = (EditText) findViewById(R.id.edit_text_region);
+
+        editTextNumb.addTextChangedListener(completedText);
+        editTextReg.addTextChangedListener(completedText);
+
+        sendBtn.setEnabled(false);
+        sendBtn.setBackgroundResource(R.drawable.roundrectdisable);
+        sendBtn.setTextColor(0x6EBEBEBE);
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
@@ -103,37 +96,90 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        editTextNumb.addTextChangedListener(new TextWatcher() {
+       /* editTextNumb.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
                 textNumber = editTextNumb.getText().toString();
             }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
+
+        editTextReg.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                textReg = editTextReg.getText().toString();
+            }
+        });*/
 
         sendString();
 
     }
 
+    private TextWatcher completedText = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            textNumber = editTextNumb.getText().toString();
+            textReg = editTextReg.getText().toString();
+
+            if (textNumber.length() == 6 & textReg.length() > 1) {
+                sendBtn.setEnabled(true);
+                sendBtn.setBackgroundResource(R.drawable.roundrect);
+                sendBtn.setTextColor(0xFFFFFFFF);
+            } else {
+                if (textNumber.length() != 6 | textReg.length() <= 1) {
+                    sendBtn.setEnabled(false);
+                    sendBtn.setBackgroundResource(R.drawable.roundrectdisable);
+                    sendBtn.setTextColor(0x6EBEBEBE);
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String completedString = textNumber + textReg;
+            String pattern = "[А-Я]{1}[0-9]{3}[А-Я]{2}[0-9]{2,3}";
+
+            if (completedString.matches(pattern)) {
+                Toast.makeText(MainActivity.this, "Yes", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(MainActivity.this, "No", Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+    };
+
     private void sendString() {
-       // String completedString = replacedNumber + textReg;
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ReplaceString rs = new ReplaceString();
-                replacedNumber = rs.replaceChar(textNumber);
-                String completedString = replacedNumber + textReg;
-                Toast.makeText(MainActivity.this, "1 " + completedString, Toast.LENGTH_LONG).show();
+                String completedString = textNumber + textReg;
+                String pattern = "[А-Я]{1}[0-9]{3}[А-Я]{2}[0-9]{2,3}";
+
+                if (completedString.matches(pattern)) {
+                    ReplaceString rs = new ReplaceString();
+                    replacedNumber = rs.replaceChar(textNumber);
+                    Toast.makeText(MainActivity.this, "1 " + replacedNumber, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "No", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

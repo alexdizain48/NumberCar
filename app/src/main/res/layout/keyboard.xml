@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:app="http://schemas.android.com/apk/res-auto"
+       xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -226,15 +227,14 @@
                 android:layout_weight="1"
                 android:text="Х"/>
 
-
-            <Button
+            <ImageButton
                 android:id="@+id/button_delete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="-4dp"
                 android:layout_marginStart="-4dp"
                 android:layout_weight="2"
-                android:text="Delete"/>
+                app:srcCompat="@drawable/ic_delete"/>
 
         </LinearLayout>
 

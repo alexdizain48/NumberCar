@@ -1,38 +1,54 @@
 package com.alex.numbercar.helper;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class ReplaceString {
 
-    private String oldChar ;
     private String newChar;
 
     public String replaceChar(String old) {
-       /* Pattern pattern = Pattern.compile("[АВЕ]");
-        Matcher matcher = pattern.matcher(old);*/
-       /* if (old.length() > 0) {
-            //newChar = old.replace("А", "D");
-            if (old.equals("А"|) {
-                newChar = old.replace("А", "D");
-            }
-        }*/
         char[] string = old.toCharArray();
-        if (string[0] == 1040) {
-            string[0] = 'R';
+
+        for (int i = 0; i < 6; i++) {
+            if (string[i] == 'А') {
+                string[i] = 'A';
+            }
+            if (string[i] == 'В') {
+                string[i] = 'B';
+            }
+            if (string[i] == 'Е') {
+                string[i] = 'E';
+            }
+            if (string[i] == 'К') {
+                string[i] = 'K';
+            }
+            if (string[i] == 'М') {
+                string[i] = 'M';
+            }
+            if (string[i] == 'Н') {
+                string[i] = 'H';
+            }
+            if (string[i] == 'О') {
+                string[i] = 'O';
+            }
+            if (string[i] == 'Р') {
+                string[i] = 'P';
+            }
+            if (string[i] == 'С') {
+                string[i] = 'C';
+            }
+            if (string[i] == 'Т') {
+                string[i] = 'T';
+            }
+            if (string[i] == 'У') {
+                string[i] = 'Y';
+            }
+            if (string[i] == 'Х') {
+                string[i] = 'K';
+            }
         }
-        if (string[4] == 1042) {
-            string[4] = 'D';
-        }
+
         newChar = String.valueOf(string);
-
-       //repl();
-
         return newChar;
     }
 
-    private void repl() {
-
-    }
 }
 
