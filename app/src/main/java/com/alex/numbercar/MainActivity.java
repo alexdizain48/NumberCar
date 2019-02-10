@@ -22,7 +22,7 @@ import com.alex.numbercar.helper.ReplaceString;
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTextNumb, editTextReg;
-    private InputConnection ic;
+    private InputConnection ic, ic1;
     private MyKeyboard keyboard;
     private Context context;
     private String textNumber, textReg;
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         editTextNumb.addTextChangedListener(completedText);
         editTextReg.addTextChangedListener(completedText);
+        editTextReg.setFocusable(false);
 
         sendBtn.setEnabled(false);
         sendBtn.setBackgroundResource(R.drawable.roundrectdisable);
@@ -96,32 +97,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       /* editTextNumb.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                textNumber = editTextNumb.getText().toString();
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        editTextReg.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                textReg = editTextReg.getText().toString();
-            }
-        });*/
-
         sendString();
 
     }
@@ -136,6 +111,11 @@ public class MainActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             textNumber = editTextNumb.getText().toString();
             textReg = editTextReg.getText().toString();
+
+            if (s.length() > 5) {
+                editTextReg.setFocusableInTouchMode(true);
+                editTextReg.requestFocus();
+            }
 
             if (textNumber.length() == 6 & textReg.length() > 1) {
                 sendBtn.setEnabled(true);
@@ -152,15 +132,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            String completedString = textNumber + textReg;
-            String pattern = "[А-Я]{1}[0-9]{3}[А-Я]{2}[0-9]{2,3}";
-
-            if (completedString.matches(pattern)) {
-                Toast.makeText(MainActivity.this, "Yes", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(MainActivity.this, "No", Toast.LENGTH_SHORT).show();
-            }
-
 
         }
     };
@@ -176,9 +147,10 @@ public class MainActivity extends AppCompatActivity {
                 if (completedString.matches(pattern)) {
                     ReplaceString rs = new ReplaceString();
                     replacedNumber = rs.replaceChar(textNumber);
-                    Toast.makeText(MainActivity.this, "1 " + replacedNumber, Toast.LENGTH_LONG).show();
+                    String completedReplasedString = replacedNumber+textReg;
+                    Toast.makeText(MainActivity.this, completedReplasedString, Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "No", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Госномер некорректен", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -187,21 +159,6 @@ public class MainActivity extends AppCompatActivity {
     public void showCustomKeyboard() {
         keyboard.setVisibility(View.VISIBLE);
         keyboard.setEnabled(true);
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
     }
-    /*public boolean validate(String str){
-        Pattern pattern;
-        Matcher matcher;
-        final String PATTERN = ("\\w\\d{3}\\w{2}\\d{2,3}");
-        pattern = Pattern.compile(PATTERN);
-        matcher = pattern.matcher(str);
-
-        return matcher.matches();
-    }*/
-
-
-
 }
 

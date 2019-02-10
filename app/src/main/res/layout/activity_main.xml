@@ -79,6 +79,7 @@
                         android:layout_marginTop="-5dp"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
+                        android:digits="0123456789"
                         android:hint="123"
                         android:maxLength="3"
                         android:maxLines="1"

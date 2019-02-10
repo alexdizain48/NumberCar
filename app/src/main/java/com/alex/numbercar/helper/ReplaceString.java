@@ -2,8 +2,6 @@ package com.alex.numbercar.helper;
 
 public class ReplaceString {
 
-    private String newChar;
-
     public String replaceChar(String old) {
         char[] string = old.toCharArray();
 
@@ -46,7 +44,7 @@ public class ReplaceString {
             }
         }
 
-        newChar = String.valueOf(string);
+        String newChar = String.valueOf(string);
         return newChar;
     }
 
