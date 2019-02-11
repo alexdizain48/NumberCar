@@ -1,6 +1,7 @@
 package com.alex.numbercar;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.Image;
 import android.os.Bundle;
@@ -77,6 +78,7 @@ public class SlideshowDialogFragment extends DialogFragment {
         }
     };
 
+    @SuppressLint("SetTextI18n")
     private void displayMetaInfo(int position) {
         counter.setText((position + 1) + " из " + images.size());
     }

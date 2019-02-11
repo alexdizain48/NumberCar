@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trasition_product_name">product_name_transition</string>
+    <string name="trasition_product_price">product_price_transition</string>
+    <string name="trasition_splash_icon">trasition_splash_icon</string>
+</resources>

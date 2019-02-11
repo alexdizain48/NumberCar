@@ -40,7 +40,7 @@ public class ReplaceString {
                 string[i] = 'Y';
             }
             if (string[i] == 'Х') {
-                string[i] = 'K';
+                string[i] = 'X';
             }
         }
 
