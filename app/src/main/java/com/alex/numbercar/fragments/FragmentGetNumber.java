@@ -25,7 +25,12 @@ import com.alex.numbercar.R;
 import com.alex.numbercar.helper.MyKeyboard;
 import com.alex.numbercar.helper.ReplaceString;
 
+import java.util.ArrayList;
+
 public class FragmentGetNumber extends Fragment{
+
+    private static final String SAVED_NUMBER = "savednumber";
+    private static final String SAVED_REG = "savedreg";
 
     private EditText editTextNumb, editTextReg;
     private InputConnection ic, ic1;
@@ -35,6 +40,8 @@ public class FragmentGetNumber extends Fragment{
     private Button sendBtn;
     private String replacedNumber;
 
+    String textnumber;
+
     public FragmentGetNumber() {
     }
 
@@ -43,76 +50,74 @@ public class FragmentGetNumber extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_get_number, container, false);
 
-        /*Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
+            sendBtn = (Button) view.findViewById(R.id.button);
+            editTextNumb = (EditText) view.findViewById(R.id.edit_text_numb);
+            editTextReg = (EditText) view.findViewById(R.id.edit_text_region);
 
+            editTextNumb.addTextChangedListener(completedText);
+            editTextReg.addTextChangedListener(completedText);
+            editTextReg.setFocusable(false);
 
-        sendBtn = (Button)view.findViewById(R.id.button);
-        editTextNumb = (EditText)view.findViewById(R.id.edit_text_numb);
-        editTextReg = (EditText)view.findViewById(R.id.edit_text_region);
+            sendBtn.setEnabled(false);
+            sendBtn.setBackgroundResource(R.drawable.roundrectdisable);
+            sendBtn.setTextColor(0x6EBEBEBE);
 
-        editTextNumb.addTextChangedListener(completedText);
-        editTextReg.addTextChangedListener(completedText);
-        editTextReg.setFocusable(false);
+            keyboard = (MyKeyboard) view.findViewById(R.id.keyboard);
+            keyboard.setVisibility(View.GONE);
 
-        sendBtn.setEnabled(false);
-        sendBtn.setBackgroundResource(R.drawable.roundrectdisable);
-        sendBtn.setTextColor(0x6EBEBEBE);
+            getActivity().getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+            );
 
-        getActivity().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
-
-        keyboard = (MyKeyboard)view.findViewById(R.id.keyboard);
-        keyboard.setVisibility(View.GONE);
-
-        editTextNumb.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    editTextNumb.setRawInputType(InputType.TYPE_CLASS_TEXT);
-                    editTextNumb.setTextIsSelectable(true);
-                    ic = editTextNumb.onCreateInputConnection(new EditorInfo());
-                    keyboard.setInputConnection(ic);
+            editTextNumb.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        editTextNumb.setRawInputType(InputType.TYPE_CLASS_TEXT);
+                        editTextNumb.setTextIsSelectable(true);
+                        ic = editTextNumb.onCreateInputConnection(new EditorInfo());
+                        keyboard.setInputConnection(ic);
+                    }
                 }
-            }
-        });
+            });
 
-        editTextNumb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCustomKeyboard();
-            }
-        });
-
-        editTextReg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    editTextReg.setRawInputType(InputType.TYPE_CLASS_TEXT);
-                    editTextReg.setTextIsSelectable(true);
-                    ic = editTextReg.onCreateInputConnection(new EditorInfo());
-                    keyboard.setInputConnection(ic);
+            editTextNumb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showCustomKeyboard();
                 }
-            }
-        });
+            });
 
-        editTextReg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCustomKeyboard();
-            }
-        });
+            editTextReg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        editTextReg.setRawInputType(InputType.TYPE_CLASS_TEXT);
+                        editTextReg.setTextIsSelectable(true);
+                        ic = editTextReg.onCreateInputConnection(new EditorInfo());
+                        keyboard.setInputConnection(ic);
+                    }
+                }
+            });
+
+            editTextReg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showCustomKeyboard();
+                }
+            });
 
         sendString();
 
         return view;
     }
 
+    private void numberGet() {
+    }
+
     private TextWatcher completedText = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
 
         @Override
@@ -152,13 +157,24 @@ public class FragmentGetNumber extends Fragment{
                 String pattern = "[А-Я]{1}[0-9]{3}[А-Я]{2}[0-9]{2,3}";
 
                 if (completedString.matches(pattern)) {
+                    FragmentImages fi = new FragmentImages();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("number", completedString);
+                    fi.setArguments(bundle);
+                    android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container,  fi).commit();
+                } else {
+                    Toast.makeText(getActivity(), "Госномер некорректен", Toast.LENGTH_SHORT).show();
+                }
+
+                /*if (completedString.matches(pattern)) {
                     ReplaceString rs = new ReplaceString();
                     replacedNumber = rs.replaceChar(textNumber);
                     String completedReplasedString = replacedNumber+textReg;
                     Toast.makeText(getActivity(), completedReplasedString, Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(), "Госномер некорректен", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
     }
