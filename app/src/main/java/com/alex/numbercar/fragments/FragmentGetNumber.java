@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +30,7 @@ import com.alex.numbercar.helper.ReplaceString;
 
 import java.util.ArrayList;
 
-public class FragmentGetNumber extends Fragment{
+public class FragmentGetNumber extends Fragment {
 
     private static final String SAVED_NUMBER = "savednumber";
     private static final String SAVED_REG = "savedreg";
@@ -40,7 +43,9 @@ public class FragmentGetNumber extends Fragment{
     private Button sendBtn;
     private String replacedNumber;
 
-    String textnumber;
+    String textnumber = "123";
+
+    final String TAG = "FragmentGetNumber";
 
     public FragmentGetNumber() {
     }
@@ -48,26 +53,27 @@ public class FragmentGetNumber extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_get_number, container, false);
+        View view = getView() != null ? getView() : inflater.inflate(R.layout.fragment_get_number, container, false);
 
-            sendBtn = (Button) view.findViewById(R.id.button);
-            editTextNumb = (EditText) view.findViewById(R.id.edit_text_numb);
-            editTextReg = (EditText) view.findViewById(R.id.edit_text_region);
+        Log.d(TAG, "onCreateView");
+        sendBtn = (Button) view.findViewById(R.id.button);
+        editTextNumb = (EditText) view.findViewById(R.id.edit_text_numb);
+        editTextReg = (EditText) view.findViewById(R.id.edit_text_region);
 
-            editTextNumb.addTextChangedListener(completedText);
-            editTextReg.addTextChangedListener(completedText);
-            editTextReg.setFocusable(false);
+        editTextNumb.addTextChangedListener(completedText);
+        editTextReg.addTextChangedListener(completedText);
+        editTextReg.setFocusable(false);
 
-            sendBtn.setEnabled(false);
-            sendBtn.setBackgroundResource(R.drawable.roundrectdisable);
-            sendBtn.setTextColor(0x6EBEBEBE);
+        sendBtn.setEnabled(false);
+        sendBtn.setBackgroundResource(R.drawable.roundrectdisable);
+        sendBtn.setTextColor(0x6EBEBEBE);
 
-            keyboard = (MyKeyboard) view.findViewById(R.id.keyboard);
-            keyboard.setVisibility(View.GONE);
+        keyboard = (MyKeyboard) view.findViewById(R.id.keyboard);
+        keyboard.setVisibility(View.GONE);
 
-            getActivity().getWindow().setSoftInputMode(
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-            );
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
             editTextNumb.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
@@ -77,6 +83,7 @@ public class FragmentGetNumber extends Fragment{
                         editTextNumb.setTextIsSelectable(true);
                         ic = editTextNumb.onCreateInputConnection(new EditorInfo());
                         keyboard.setInputConnection(ic);
+
                     }
                 }
             });
@@ -94,8 +101,8 @@ public class FragmentGetNumber extends Fragment{
                     if (hasFocus) {
                         editTextReg.setRawInputType(InputType.TYPE_CLASS_TEXT);
                         editTextReg.setTextIsSelectable(true);
-                        ic = editTextReg.onCreateInputConnection(new EditorInfo());
-                        keyboard.setInputConnection(ic);
+                        ic1 = editTextReg.onCreateInputConnection(new EditorInfo());
+                        keyboard.setInputConnection(ic1);
                     }
                 }
             });
@@ -110,9 +117,6 @@ public class FragmentGetNumber extends Fragment{
         sendString();
 
         return view;
-    }
-
-    private void numberGet() {
     }
 
     private TextWatcher completedText = new TextWatcher() {
@@ -157,12 +161,18 @@ public class FragmentGetNumber extends Fragment{
                 String pattern = "[А-Я]{1}[0-9]{3}[А-Я]{2}[0-9]{2,3}";
 
                 if (completedString.matches(pattern)) {
+                    //Fragment fragmentGetNumber = new FragmentGetNumber();
+
                     FragmentImages fi = new FragmentImages();
                     Bundle bundle = new Bundle();
                     bundle.putString("number", completedString);
                     fi.setArguments(bundle);
-                    android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container,  fi).commit();
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, fi)
+                            .addToBackStack(null)
+                            .commit();
                 } else {
                     Toast.makeText(getActivity(), "Госномер некорректен", Toast.LENGTH_SHORT).show();
                 }
@@ -180,8 +190,15 @@ public class FragmentGetNumber extends Fragment{
     }
 
     public void showCustomKeyboard() {
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
         keyboard.setVisibility(View.VISIBLE);
         keyboard.setEnabled(true);
     }
-
+   /* @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }*/
 }
