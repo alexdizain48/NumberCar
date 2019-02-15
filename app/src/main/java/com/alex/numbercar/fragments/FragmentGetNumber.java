@@ -32,9 +32,6 @@ import java.util.ArrayList;
 
 public class FragmentGetNumber extends Fragment {
 
-    private static final String SAVED_NUMBER = "savednumber";
-    private static final String SAVED_REG = "savedreg";
-
     private EditText editTextNumb, editTextReg;
     private InputConnection ic, ic1;
     private MyKeyboard keyboard;
@@ -42,8 +39,6 @@ public class FragmentGetNumber extends Fragment {
     private String textNumber, textReg;
     private Button sendBtn;
     private String replacedNumber;
-
-    String textnumber = "123";
 
     final String TAG = "FragmentGetNumber";
 

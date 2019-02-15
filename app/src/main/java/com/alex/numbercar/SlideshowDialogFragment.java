@@ -1,6 +1,5 @@
 package com.alex.numbercar;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.Image;
@@ -32,7 +31,7 @@ public class SlideshowDialogFragment extends DialogFragment {
     private TextView counter;
     private int selectedPosition = 0;
 
-    static SlideshowDialogFragment newInstance() {
+    public static SlideshowDialogFragment newInstance() {
         SlideshowDialogFragment f = new SlideshowDialogFragment();
         return f;
     }
@@ -90,7 +89,6 @@ public class SlideshowDialogFragment extends DialogFragment {
     }
 
     public class MyViewPagerAdapter extends PagerAdapter {
-
         private LayoutInflater layoutInflater;
 
         public MyViewPagerAdapter() {

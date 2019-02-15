@@ -8,9 +8,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.alex.numbercar.R;
 import com.alex.numbercar.model.Url;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,6 +21,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
     private List<Url> images;
     private Context context;
+
+    public ProgressBar progress;
 
     public GalleryAdapter(List<Url> images, Context context) {
         this.images = images;
@@ -34,12 +38,26 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         Picasso.with(context)
                 .load(images.get(position).getMedium())
                 .placeholder(R.drawable.ic_photo)
-                .into(holder.thumbnail);
+                .error(R.drawable.ic_photo)
+                //.into(holder.thumbnail);
+                .into(holder.thumbnail, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        if (progress != null) {
+                            progress.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
 
     }
 
@@ -50,7 +68,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
     public interface ClickListener {
         void onClick(View view, int position);
-        //void onLongClick(View view, int position);
     }
 
     public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
@@ -65,14 +82,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
                 public boolean onSingleTapUp(MotionEvent e) {
                     return true;
                 }
-
-                /*@Override
-                public void onLongPress(MotionEvent e) {
-                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                    if (child != null && clickListener != null) {
-                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
-                    }
-                }*/
             });
         }
 
@@ -99,11 +108,13 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView thumbnail;
+        public ProgressBar progress;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             thumbnail = itemView.findViewById(R.id.thumbnail);
+            progress = itemView.findViewById(R.id.progressBar);
         }
     }
 }
