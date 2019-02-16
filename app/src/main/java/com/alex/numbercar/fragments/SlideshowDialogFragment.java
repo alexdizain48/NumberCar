@@ -1,23 +1,25 @@
-package com.alex.numbercar;
+package com.alex.numbercar.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.alex.numbercar.model.Images;
-import com.alex.numbercar.model.Url;
+import com.alex.numbercar.R;
+import com.alex.numbercar.model.Photocar;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,11 +27,12 @@ import java.util.List;
 
 public class SlideshowDialogFragment extends DialogFragment {
 
-    private List<Url> images;
+    private List<Photocar> images;
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
-    private TextView counter;
+    private TextView counter, title;
     private int selectedPosition = 0;
+    private ProgressBar progress;
 
     public static SlideshowDialogFragment newInstance() {
         SlideshowDialogFragment f = new SlideshowDialogFragment();
@@ -42,8 +45,10 @@ public class SlideshowDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_image_slider, container, false);
         viewPager = (ViewPager)view.findViewById(R.id.viewpager);
         counter = (TextView)view.findViewById(R.id.counter);
+        title = (TextView)view.findViewById(R.id.title);
+        progress = (ProgressBar)view.findViewById(R.id.progressBar);
 
-        images = (ArrayList<Url>) getArguments().getSerializable("images");
+        images = (ArrayList<Photocar>) getArguments().getSerializable("images");
         selectedPosition = getArguments().getInt("position");
 
         myViewPagerAdapter = new MyViewPagerAdapter();
@@ -102,12 +107,13 @@ public class SlideshowDialogFragment extends DialogFragment {
 
             ImageView imageViewPrev = (ImageView)v.findViewById(R.id.image_preview);
 
-            Url imgs = images.get(position);
+            Photocar imgs = images.get(position);
 
-            Picasso.with(getActivity())
-                    .load(imgs.getLarge())
-                    .placeholder(R.drawable.ic_photo)
-                    .error(R.drawable.ic_photo)
+            Glide.with(getActivity())
+                    .load(imgs.getUrl())
+                    .thumbnail(0.5f)
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageViewPrev);
 
             container.addView(v);

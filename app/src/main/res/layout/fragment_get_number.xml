@@ -132,7 +132,7 @@
         <com.alex.numbercar.helper.MyKeyboard
             android:id="@+id/keyboard"
             android:layout_width="match_parent"
-            android:layout_height="123dp"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/number_form"
             android:layout_alignParentBottom="true"
             android:focusable="true"

@@ -7,40 +7,40 @@ public class ReplaceString {
 
         for (int i = 0; i < 6; i++) {
             if (string[i] == 'А') {
-                string[i] = 'A';
+                string[i] = 'а';
             }
             if (string[i] == 'В') {
-                string[i] = 'B';
+                string[i] = 'в';
             }
             if (string[i] == 'Е') {
-                string[i] = 'E';
+                string[i] = 'е';
             }
             if (string[i] == 'К') {
-                string[i] = 'K';
+                string[i] = 'к';
             }
             if (string[i] == 'М') {
-                string[i] = 'M';
+                string[i] = 'м';
             }
             if (string[i] == 'Н') {
-                string[i] = 'H';
+                string[i] = 'н';
             }
             if (string[i] == 'О') {
-                string[i] = 'O';
+                string[i] = 'о';
             }
             if (string[i] == 'Р') {
-                string[i] = 'P';
+                string[i] = 'р';
             }
             if (string[i] == 'С') {
-                string[i] = 'C';
+                string[i] = 'с';
             }
             if (string[i] == 'Т') {
-                string[i] = 'T';
+                string[i] = 'т';
             }
             if (string[i] == 'У') {
-                string[i] = 'Y';
+                string[i] = 'у';
             }
             if (string[i] == 'Х') {
-                string[i] = 'X';
+                string[i] = 'х';
             }
         }
 

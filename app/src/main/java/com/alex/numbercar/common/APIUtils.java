@@ -6,7 +6,7 @@ public class APIUtils {
     public APIUtils() {
     }
 
-    private static final String BASE_URL = "https://api.androidhive.info/";
+    private static final String BASE_URL = "http://api-photocar.avtoistoria.ru/";
 
     public static EndPoint getFileServise() {
         return NetworkService.getClient(BASE_URL).create(EndPoint.class);

@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.Button;
@@ -27,8 +29,10 @@ import com.alex.numbercar.MainActivity;
 import com.alex.numbercar.R;
 import com.alex.numbercar.helper.MyKeyboard;
 import com.alex.numbercar.helper.ReplaceString;
+import com.alex.numbercar.model.ItemsMain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FragmentGetNumber extends Fragment {
 
@@ -40,7 +44,8 @@ public class FragmentGetNumber extends Fragment {
     private Button sendBtn;
     private String replacedNumber;
 
-    final String TAG = "FragmentGetNumber";
+    private Animation upAnimation;
+
 
     public FragmentGetNumber() {
     }
@@ -50,7 +55,6 @@ public class FragmentGetNumber extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = getView() != null ? getView() : inflater.inflate(R.layout.fragment_get_number, container, false);
 
-        Log.d(TAG, "onCreateView");
         sendBtn = (Button) view.findViewById(R.id.button);
         editTextNumb = (EditText) view.findViewById(R.id.edit_text_numb);
         editTextReg = (EditText) view.findViewById(R.id.edit_text_region);
@@ -64,7 +68,7 @@ public class FragmentGetNumber extends Fragment {
         sendBtn.setTextColor(0x6EBEBEBE);
 
         keyboard = (MyKeyboard) view.findViewById(R.id.keyboard);
-        keyboard.setVisibility(View.GONE);
+        upAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.animation_opacity);
 
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
@@ -83,13 +87,6 @@ public class FragmentGetNumber extends Fragment {
                 }
             });
 
-            editTextNumb.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showCustomKeyboard();
-                }
-            });
-
             editTextReg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
@@ -102,14 +99,9 @@ public class FragmentGetNumber extends Fragment {
                 }
             });
 
-            editTextReg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showCustomKeyboard();
-                }
-            });
-
         sendString();
+
+        keyboard.startAnimation(upAnimation);
 
         return view;
     }
@@ -156,30 +148,26 @@ public class FragmentGetNumber extends Fragment {
                 String pattern = "[А-Я]{1}[0-9]{3}[А-Я]{2}[0-9]{2,3}";
 
                 if (completedString.matches(pattern)) {
-                    //Fragment fragmentGetNumber = new FragmentGetNumber();
-
+                    ReplaceString rs = new ReplaceString();
+                    replacedNumber = rs.replaceChar(textNumber);
+                    String completedReplasedString = replacedNumber+textReg;
                     FragmentImages fi = new FragmentImages();
                     Bundle bundle = new Bundle();
                     bundle.putString("number", completedString);
+                    bundle.putString("replacednumber", completedReplasedString);
                     fi.setArguments(bundle);
 
                     FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, fi)
-                            .addToBackStack(null)
-                            .commit();
+                    if (fragmentManager != null) {
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.fragment_container, fi)
+                                .addToBackStack(null)
+                                .commit();
+                    }
                 } else {
                     Toast.makeText(getActivity(), "Госномер некорректен", Toast.LENGTH_SHORT).show();
                 }
 
-                /*if (completedString.matches(pattern)) {
-                    ReplaceString rs = new ReplaceString();
-                    replacedNumber = rs.replaceChar(textNumber);
-                    String completedReplasedString = replacedNumber+textReg;
-                    Toast.makeText(getActivity(), completedReplasedString, Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity(), "Госномер некорректен", Toast.LENGTH_SHORT).show();
-                }*/
             }
         });
     }
@@ -188,12 +176,6 @@ public class FragmentGetNumber extends Fragment {
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
-        keyboard.setVisibility(View.VISIBLE);
         keyboard.setEnabled(true);
     }
-   /* @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-    }*/
 }

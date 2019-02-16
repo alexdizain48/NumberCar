@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.alex.numbercar.R;
-import com.alex.numbercar.model.Url;
+import com.alex.numbercar.model.Photocar;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -19,12 +21,12 @@ import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
 
-    private List<Url> images;
+    private List<Photocar> images;
     private Context context;
 
     public ProgressBar progress;
 
-    public GalleryAdapter(List<Url> images, Context context) {
+    public GalleryAdapter(List<Photocar> images, Context context) {
         this.images = images;
         this.context = context;
     }
@@ -40,24 +42,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
-        Picasso.with(context)
-                .load(images.get(position).getMedium())
-                .placeholder(R.drawable.ic_photo)
-                .error(R.drawable.ic_photo)
-                //.into(holder.thumbnail);
-                .into(holder.thumbnail, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        if (progress != null) {
-                            progress.setVisibility(View.GONE);
-                        }
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
+        Glide.with(context)
+                .load(images.get(position).getUrl())
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.thumbnail);
 
     }
 
@@ -108,13 +98,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView thumbnail;
-        public ProgressBar progress;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             thumbnail = itemView.findViewById(R.id.thumbnail);
-            progress = itemView.findViewById(R.id.progressBar);
         }
     }
 }
