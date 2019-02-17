@@ -85,6 +85,7 @@ public class SlideshowDialogFragment extends DialogFragment {
     @SuppressLint("SetTextI18n")
     private void displayMetaInfo(int position) {
         counter.setText((position + 1) + " из " + images.size());
+        title.setText(images.get(position).getModel());
     }
 
     @Override
